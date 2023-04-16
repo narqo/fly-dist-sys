@@ -21,7 +21,10 @@ func Run(svc Service) error {
 		return fmt.Errorf("expected init message, got %q", typ)
 	}
 
-	svc.Init(init.Body)
+	err = svc.Init(init.Body)
+	if err != nil {
+		return fmt.Errorf("init service: %w", err)
+	}
 
 	reply := ReplyTo(init, 0, InitOKMessage{})
 	err = out.Encode(reply)
